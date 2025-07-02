@@ -2,30 +2,22 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main]         # ← main ブランチに push したら実行
+    branches: [main]   # main に push したら自動デプロイ
 
 permissions:
-  contents: write            # gh-pages へ push する権限
+  contents: read       # 必須
+  pages: write         # GitHub Pages へ書き込み
+  id-token: write      # OIDC（deploy-pages 用）
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      # Node を用意 (Astro 3 以降は 18+ で OK)
-      - uses: actions/setup-node@v4
+      # ★ これ 1 行で「Node セットアップ → 依存解決 → Astro build →
+      #    .nojekyll 追加 → gh-pages ブランチへ push (pages artifact)」までやる
+      - uses: withastro/action@v4   # v4 (= 2025-03 リリース)
         with:
-          node-version: 20
-          cache: 'npm'
-
-      - run: npm ci
-
-      - name: Add .nojekyll
-        run: echo "" > dist/.nojekyll
-
-      # ⭐ 公式 deploy Action（ビルド＋gh-pages push を全部やってくれる）
-      - uses: withastro/action@v2      # v2 は 2025-05 リリース
-        with:
-          deploy-branch: gh-pages      # ← GitHub Pages 既定
-          node-version: 20
+          node-version: 20         # 任意。省略すると v22 が入る
+          deploy-branch: gh-pages  # 変更したい場合のみ
