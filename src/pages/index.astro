@@ -22,15 +22,28 @@
       arjs="sourceType: webcam; debugUIEnabled:false;"
       vr-mode-ui="enabled:false"
     >
-      <a-marker preset="hiro">
+      <a-marker preset="hiro" emitevents="true">
         <a-entity
-          .gltf-model={`${import.meta.env.BASE_URL}models/model.glb`}
-          scale="0.5 0.5 0.5"
+          gltf-model="public/models/model.glb"
+          scale="1 1 1"
           rotation="0 180 0"
         ></a-entity>
       </a-marker>
 
       <a-entity camera></a-entity>
     </a-scene>
+
+    <!-- Debug script to log marker detection events -->
+    <script is:inline>
+      document.addEventListener('DOMContentLoaded', () => {
+        const marker = document.querySelector('a-marker');
+        if (marker) {
+          marker.addEventListener('markerFound', () => console.log('markerFound'));
+          marker.addEventListener('markerLost', () => console.log('markerLost'));
+        } else {
+          console.log('No <a-marker> element found');
+        }
+      });
+    </script>
   </body>
 </html>
