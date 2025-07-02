@@ -21,6 +21,9 @@ jobs:
 
       - run: npm ci
 
+      - name: Add .nojekyll
+        run: echo "" > dist/.nojekyll
+
       # ⭐ 公式 deploy Action（ビルド＋gh-pages push を全部やってくれる）
       - uses: withastro/action@v2      # v2 は 2025-05 リリース
         with:
