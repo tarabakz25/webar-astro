@@ -1,5 +1,7 @@
-// @ts-check
 import { defineConfig } from 'astro/config';
 
-// https://astro.build/config
-export default defineConfig({});
+export default defineConfig({
+  site: 'https://tarabakz25.github.io',   // ← 必ず https:// で!
+  base: '/webar-astro',                         // ← プロジェクトページなら必須
+  output: 'static',                        // ← 既定値だが明示しておく
+});

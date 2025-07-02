@@ -1,11 +1,36 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+---                    <!-- front-matter は空で OK -->
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
----
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <title>Astro WebAR demo</title>
 
-<Layout>
-	<Welcome />
-</Layout>
+    <!-- ★ ここを必ず is:inline でクラシック読み込み -->
+    <script is:inline src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
+    <script is:inline src="https://cdn.jsdelivr.net/npm/@ar-js-org/ar.js@3.4.7/aframe/build/aframe-ar.js"></script>
+
+    <style>
+      a-scene { width:100vw; height:100vh; position:fixed; inset:0; }
+    </style>
+  </head>
+
+  <body>
+    <a-scene
+      embedded
+      arjs="sourceType: webcam; debugUIEnabled:false;"
+      vr-mode-ui="enabled:false"
+    >
+      <a-marker preset="hiro">
+        <a-entity
+          .gltf-model="/models/model.glb"
+          scale="0.5 0.5 0.5"
+          rotation="0 180 0"
+        ></a-entity>
+      </a-marker>
+
+      <a-entity camera></a-entity>
+    </a-scene>
+  </body>
+</html>
